@@ -17,3 +17,13 @@ spring:
     cache: false  #关闭模板缓存，方便测试
     settings:
       template_update_delay: 0
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:50101/eureka
+  instance:
+    lease-expiration-duration-in-seconds: 10 #10秒过期，生产环境不要配置这个了，用默认的90就好
+    lease-renewal-interval-in-seconds: 5 #5秒一次心跳，生产环境不要配置这个了，用默认的30就好
+    prefer-ip-address:  true  #将自己的ip地址注册到Eureka服务中
+    ip-address: ${IP_ADDRESS:127.0.0.1}
+    instance-id: ${spring.application.name}:${server.port} #指定实例id

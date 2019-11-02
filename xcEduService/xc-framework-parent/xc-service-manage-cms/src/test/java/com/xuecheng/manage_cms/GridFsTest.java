@@ -39,12 +39,13 @@ public class GridFsTest {
     @Test
     public void testStore() throws FileNotFoundException {
         //定义file
-        File file =new File("d:/index_banner.ftl");
+        File file =new File("d:/course.ftl");
         //定义fileInputStream
         FileInputStream fileInputStream = new FileInputStream(file);
-        ObjectId objectId = gridFsTemplate.store(fileInputStream, "index_banner.ftl");
+        ObjectId objectId = gridFsTemplate.store(fileInputStream, "course.ftl");
         System.out.println(objectId);
-        //5db092ccaa620527b8ad81b5
+        //index_banner.ftl的id：5db092ccaa620527b8ad81b5
+        //course.ftl的id：5dbdedc1aa62053eb023680b
     }
 
     //取文件

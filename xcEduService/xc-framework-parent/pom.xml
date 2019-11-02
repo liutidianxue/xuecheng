@@ -23,6 +23,7 @@
         <module>xc‐service‐manage‐cms‐client</module>
         <module>xc-service-manage-course</module>
         <module>xc-service-base-filesystem</module>
+        <module>xc-govern-center</module>
     </modules>
 
     <properties>
@@ -51,7 +52,7 @@
         <elasticsearch.version>6.2.1</elasticsearch.version>
         <guava.version>24.0-jre</guava.version>
     </properties>
-    <!--test-->
+    <!--dao-->
     <dependencyManagement>
         <dependencies>
             <dependency>

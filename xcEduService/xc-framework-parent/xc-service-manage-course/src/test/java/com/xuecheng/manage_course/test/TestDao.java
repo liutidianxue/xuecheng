@@ -1,4 +1,4 @@
-package com.xuecheng.manage_course.dao;
+package com.xuecheng.manage_course.test;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -9,6 +9,9 @@ import com.xuecheng.framework.domain.course.ext.CategoryNode;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.manage_course.dao.CourseBaseRepository;
+import com.xuecheng.manage_course.dao.CourseMapper;
+import com.xuecheng.manage_course.dao.TeachplanMapper;
 import com.xuecheng.manage_course.service.CategorySerive;
 import org.junit.Test;
 import org.junit.runner.RunWith;

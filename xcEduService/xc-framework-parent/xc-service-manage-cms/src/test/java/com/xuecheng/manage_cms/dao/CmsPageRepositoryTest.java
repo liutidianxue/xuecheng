@@ -37,7 +37,7 @@ public class CmsPageRepositoryTest {
     public void testFindAllByCondition(){
         ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("pageAliase", ExampleMatcher.GenericPropertyMatchers.contains());
         CmsPage cmsPage = new CmsPage();
-        cmsPage.setPageAliase("test");
+        cmsPage.setPageAliase("dao");
         Example<CmsPage> example = Example.of(cmsPage, exampleMatcher);
         Pageable pageable = new PageRequest(0, 10);
         Page<CmsPage> all = cmsPageRepository.findAll(example, pageable);
