@@ -29,7 +29,7 @@ eureka:
     instance-id: ${spring.application.name}:${server.port} #指定实例id
 
 course-publish:
-  siteId: 5a751fab6abb5044e0d19ea1
+  siteId: 5dbe7e43166a7873547c83f9
   templateId: 5dbdeebada6c9b3b146f123f
   previewUrl: http://www.xuecheng.com/cms/preview/
   pageWebPath: /course/detail/
