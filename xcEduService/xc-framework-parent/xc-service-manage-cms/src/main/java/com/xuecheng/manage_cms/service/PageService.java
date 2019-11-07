@@ -356,6 +356,7 @@ public class PageService {
         //发送给mq
         //站点id
         String siteId = cmsPage.getSiteId();
+        //已站点id为路由
         rabbitTemplate.convertAndSend(RabbitmqConfig.EX_ROUTING_CMS_POSTPAGE,siteId,jsonString);
     }
 
