@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author hewei
@@ -66,6 +67,9 @@ public class CourseService {
 
     @Autowired
     CmsPageClient cmsPageClient;
+
+    @Autowired
+    TeachplanMediaPubRepository teachplanMediaPubRepository;
 
     @Value("${course-publish.dataUrlPre}")
     private String publish_dataUrlPre;
@@ -342,6 +346,10 @@ public class CourseService {
         //...
         //得到页面的url
         String pageUrl = cmsPostPageResult.getPageUrl();
+
+        //向teachplanMediaPub中保存课程媒资信息
+        this.saveTeachplanMediaPub(id);
+
         return new CoursePublishResult(CommonCode.SUCCESS, pageUrl);
 
     }
@@ -452,5 +460,25 @@ public class CourseService {
         teachplanMediaRepository.save(one);
 
         return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    //向teachplanMediaPub中保存课程媒资信息
+    private void saveTeachplanMediaPub(String courseId){
+        //先删除teachplanMediaPub中的数据
+        teachplanMediaPubRepository.deleteByCourseId(courseId);
+        //从teachplanMedia中查询
+        List<TeachplanMedia> teachplanMediaList = teachplanMediaRepository.findByCourseId(courseId);
+
+        List<TeachplanMediaPub> teachplanMediaPubs = teachplanMediaList.stream().map(teachplanMedia -> {
+            TeachplanMediaPub teachplanMediaPub = new TeachplanMediaPub();
+            BeanUtils.copyProperties(teachplanMedia, teachplanMediaPub);
+            //添加时间戳
+            teachplanMediaPub.setTimestamp(new Date());
+            return teachplanMediaPub;
+        }).collect(Collectors.toList());
+
+        //将teachplanMediaList插入到teachplanMediaPub
+        teachplanMediaPubRepository.saveAll(teachplanMediaPubs);
+
     }
 }
