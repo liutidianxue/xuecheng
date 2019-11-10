@@ -1,15 +1,14 @@
 package com.xuecheng.auth.service;
 
 import com.alibaba.fastjson.JSON;
-import com.mysql.jdbc.LoadBalancedConnection;
 import com.xuecheng.framework.client.XcServiceList;
 import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
 import com.xuecheng.framework.exception.ExceptionCast;
+import lombok.experimental.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -124,6 +123,15 @@ public class AuthService {
                 bodyMap.get("access_token") == null ||
                 bodyMap.get("refresh_token") == null ||
                 bodyMap.get("jti") == null){
+            //解析spring security返回的错误信息
+            if(bodyMap!=null && bodyMap.get("error_description")!=null){
+                String error_description = (String) bodyMap.get("error_description");
+                if(error_description.indexOf("UserDetailsService returned null")>=0 || error_description.indexOf("坏的凭证")>=0){
+                    ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
+                }
+            }
+
+
             return null;
         }
         AuthToken authToken = new AuthToken();
@@ -141,4 +149,31 @@ public class AuthService {
     }
 
 
+    //从redis查询令牌
+    /**
+     *
+     * @param uid   用户身份令牌
+     * @return
+     */
+    public AuthToken getUserToken(String uid) {
+        String key = "user_token:" + uid;
+        //从redis中取到令牌信息
+        String value = stringRedisTemplate.opsForValue().get(key);
+        //转成对象
+        try {
+            AuthToken authToken = JSON.parseObject(value, AuthToken.class);
+            return authToken;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    //删除token
+    public boolean delToken(String access_token) {
+        String key = "user_token:" + access_token;
+        stringRedisTemplate.delete(key);
+        return true;
+    }
 }
