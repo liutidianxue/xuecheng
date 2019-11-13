@@ -149,7 +149,7 @@ public class CourseService {
         return teachplanList.get(0).getId();
     }
 
-    public QueryResponseResult findCourseList(int page, int size, CourseListRequest courseListRequest) {
+    public QueryResponseResult findCourseList(String company_id, int page, int size, CourseListRequest courseListRequest) {
         if (courseListRequest == null) {
             courseListRequest = new CourseListRequest();
         }
@@ -159,6 +159,9 @@ public class CourseService {
         if(size <= 0){
             size = 10;
         }
+
+        //将公司id参数传入dao
+        courseListRequest.setCompanyId(company_id);
 
         PageHelper.startPage(page,size);
         List<CourseInfo> courseInfoList = this.courseMapper.findCourseInfoList(courseListRequest);

@@ -404,7 +404,7 @@ public class PageService {
         CmsPage cmsPageSave = save.getCmsPage();
         String pageId = cmsPageSave.getPageId();
 
-        //执行页面发布(先静态化，保存GridFS.想MQ发送消息)
+        //执行页面发布(先静态化，保存GridFS.向MQ发送消息)
         ResponseResult post = this.post(pageId);
         if(!post.isSuccess()){
             ExceptionCast.cast(CommonCode.FAIL);

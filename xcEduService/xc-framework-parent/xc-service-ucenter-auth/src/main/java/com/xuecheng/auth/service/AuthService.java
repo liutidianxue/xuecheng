@@ -5,7 +5,6 @@ import com.xuecheng.framework.client.XcServiceList;
 import com.xuecheng.framework.domain.ucenter.ext.AuthToken;
 import com.xuecheng.framework.domain.ucenter.response.AuthCode;
 import com.xuecheng.framework.exception.ExceptionCast;
-import lombok.experimental.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
